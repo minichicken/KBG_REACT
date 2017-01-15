@@ -1,20 +1,21 @@
 import React from 'react'; // var React  = require('reacct');
-import Custumer from './Custumer';
+import ReactDOM from 'react-dom';
+import TodoInput from './TodoInput';
+import MuiThemeProvider from 'material-ui/styles/MuiThemeProvider';
+                             
+class App extends React.Component {
 
-class App extends React.Component{
-
-    render(){
-        return(    
+    render() {
+        return (
             <div>
-            <Custumer name={"고객명"} gender={"남자"} age={10} />
-        
-            
-            <Custumer />
-            </div>
-            
-            );        
+              <MuiThemeProvider>
+                <TodoInput/>
+                
+             </MuiThemeProvider>    
+            </div> 
+        );
     }
 
 }
 
-export default App; 
+export default App;
