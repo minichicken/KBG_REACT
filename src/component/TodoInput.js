@@ -6,6 +6,7 @@ import FlatButton from 'material-ui/FlatButton';
 
 import { Table, TableBody, TableHeader, TableHeaderColumn, TableRow, TableRowColumn } from 'material-ui/Table';
 
+import TodoList from './TodoList';
 
 
 
@@ -34,7 +35,7 @@ class TodoInput extends React.Component {
             // console.log("TEST : "+[...tempArr,todoInputData]);
 
             this.setState({ TodoStoage: [...tempArr, todoInputData] });
-
+            e.target.value = '';// 초기화  
             // console.log(this.tableRow());
             
         } else if (e.type === 'click') {
@@ -63,7 +64,7 @@ class TodoInput extends React.Component {
                 <FlatButton label="저장" primary={true} onClick={this.onSave} />
                 <br />
                 TODO 입력 확인 :{this.state.TodoStoage.map((elm,i) =>{ 
-                return (<div>{elm}</div>);
+                return (<TodoList text={elm}/>);
                 })}
                 
             </div>
