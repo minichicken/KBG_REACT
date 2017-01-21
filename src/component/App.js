@@ -10,7 +10,6 @@ class App extends React.Component {
             <div>
               <MuiThemeProvider>
                 <TodoInput/>
-                
              </MuiThemeProvider>    
             </div> 
         );
