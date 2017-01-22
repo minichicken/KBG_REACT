@@ -13,7 +13,7 @@ import StringUtils from '../util/StringUtils';
 class TodoInput extends React.Component {
     // props 란 불변성 데이터 
     constructor(props) {
-        super(props); 
+        super(props);
         this.state = { TodoInputData: '', TodoStoage: [], TodoRemoveList: [] }; // 변동이 가능한 데이터 
         this.onSave = this.onSave.bind(this); // bind scope 영역을 강제로 내부로 한정시킴
         this.onChangeHandler = this.onChangeHandler.bind(this);
@@ -70,39 +70,48 @@ class TodoInput extends React.Component {
 
 
     // 콜백 함수로 지정 
-    onGetCheckedIndexTodoList(state){
-        console.log(state);
-        let tempArr = this.state.TodoRemoveList;
-        let isInputChecked = this.state.isInputChecked;
-        if (isInputChecked){
-            this.setState({ TodoRemoveList: [...tempArr, state.index] });
-        } else{
+    onGetCheckedIndexTodoList(state) {
+        var tempArr = this.state.TodoRemoveList;
+        var isInputChecked = state.isChecked;
+        console.log("isInputChecked : " + isInputChecked);
+        console.log("isInputChecked : " + tempArr);
 
+        if (isInputChecked) {
+            console.log("REMOVE LIST ");
+            tempArr.push(state.index);
+            this.setState({ TodoRemoveList: tempArr });
+        } else {
+            console.log("REMOVE LIST ");
+            var removeIndex = tempArr.indexOf(state.index);
+            tempArr.splice(removeIndex, 1);
+            this.setState({ TodoRemoveList: tempArr });
         }
-        //console.log(tempArr);
+
+        console.log(this.state.TodoRemoveList);
         //console.log(tempArr.splice(state.index,1));
         //this.setState({ TodoStoage: tempArr });
 
     }
 
 
-    onRemove(){
-        let targetIndexArr = this.state.TodoRemoveList;
-        let tempArr = this.state.TodoStoage;
+    onRemove() {
+        var targetIndexArr = this.state.TodoRemoveList;
+        var tempArr = this.state.TodoStoage;
+        console.log("삭제전");
+        console.log(tempArr.toLocaleString());
         // 배열에서 제거 todoList 정보 제거 
-        targetIndexArr.forEach((element, index, array) => {
-            console.log(element);
-            tempArr.splice(element,1);
-            
-            console.log(tempArr);  
-            console.log(array);  
-        });
+        for (var target of targetIndexArr) {
+            console.log("제거 REMOVE 확인 " + target);
+            tempArr.splice(target, 1);    
+            console.log(tempArr.toLocaleString());
+            this.setState({ TodoStoage: tempArr});
+        }
 
-        // 다시 초기화함 
-        this.setState({ TodoStoage: tempArr ,TodoRemoveList:[] });
-
+        // 다시 초기화함     
+        this.setState({TodoRemoveList: [] });
+        console.log(this.state.TodoStoage);
     }
- 
+
     render() {
 
         return (
@@ -112,14 +121,14 @@ class TodoInput extends React.Component {
                     hintText="ToDo 를 입력하세요!" onKeyPress={this.onSave} onChange={this.onChangeHandler} />
                 <FlatButton label="저장" primary={true} onClick={this.onSave} />
                 <FlatButton label="수정" primary={true} />
-                <FlatButton label="선택삭제" primary={true}  onClick={this.onRemove}/>
+                <FlatButton label="선택삭제" primary={true} onClick={this.onRemove} />
                 <br />
                 <div>
-                TODO 입력 확인 :{
-                    this.state.TodoStoage.map((elm, i) => {   
-                        return (<TodoList text={elm} index={i} getIndexOfTodoList={this.onGetCheckedIndexTodoList}/>);
-                    })
-                }
+                    TODO 입력 확인 :{
+                        this.state.TodoStoage.map((elm, i) => {
+                            return (<TodoList text={elm} index={i} getIndexOfTodoList={this.onGetCheckedIndexTodoList} />);
+                        })
+                    }
                 </div>
             </div>
 
